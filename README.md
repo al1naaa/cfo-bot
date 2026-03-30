@@ -4,7 +4,7 @@
 > Deployed on Firebase Hosting · Built with React + Vite
 
 ## 🌐 Live Demo
-**[https://cfo-bot-YOUR-ID.web.app](https://cfo-bot-YOUR-ID.web.app)**
+**[https://cfo-bot-YOUR-ID.web.app](https://cfo-bot-cloud.web.app)**
 
 ---
 
