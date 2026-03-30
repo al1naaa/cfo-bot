@@ -1,7 +1,7 @@
 // pricing.config.js - Single Source of Truth for all pricing data
 // All prices in USD.
 
-export const USD_TO_KZT = 450;
+export const USD_TO_KZT = 480;
 
 export const AI_MODELS = [
   {
