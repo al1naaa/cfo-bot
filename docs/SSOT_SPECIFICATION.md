@@ -1,7 +1,5 @@
 # CFO Bot - System Specification (SSOT)
 
-Status: APPROVED | Date: 2025-06-01
-
 ---
 
 ## 1. Executive Summary

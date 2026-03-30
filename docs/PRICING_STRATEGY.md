@@ -1,7 +1,5 @@
 # CFO Bot - Pricing Strategy and Cloud Architecture Business Document
 
-Course: Information Systems - TSIS 3, Phase 4 | Date: 2025-06-01
-
 ---
 
 ## 1. Executive Summary
@@ -105,6 +103,3 @@ Recommendation for Enterprise: AWS Lambda + GPT-5 mini - best cost-to-performanc
 
 The CFO Bot demonstrates that a modern chat bot application can be operated for under $10/month at startup scale using the right combination of free tiers and efficient AI models. As scale grows, the critical decision point is AI model selection - not cloud provider. The recommended migration path is: Raptor mini / Gemini Flash at startup, then Gemini Pro, then GPT-5 mini as scale and quality requirements increase.
 
----
-
-Generated with CFO Bot v1.0 - Cloud Economics Calculator

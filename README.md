@@ -48,7 +48,7 @@ All calculations run 100% client-side in JavaScript - no backend needed, instant
 
 ```bash
 # Clone
-git clone https://github.com/YOUR_USERNAME/cfo-bot.git
+git clone https://github.com/al1naaa/cfo-bot.git
 cd cfo-bot
 
 # Install
@@ -79,7 +79,7 @@ firebase init hosting
 # Deploy
 npm run build
 firebase deploy
-# App goes live at https://YOUR-PROJECT.web.app
+# App goes live at https://cfo-bot-cloud.web.app
 ```
 
 ---
@@ -104,7 +104,7 @@ cost_storage = max(0, stored_gb - free_gb) * price_per_gb
 
 cost_bandwidth = max(0, egress_gb - free_gb) * price_per_gb
 
-KZT_equivalent = total_usd * 450
+KZT_equivalent = total_usd * 480
 ```
 
 ---
@@ -119,8 +119,3 @@ KZT_equivalent = total_usd * 450
 | Phase 3 | Firebase Deployment             | Live URL |
 | Phase 4 | Pricing Strategy Document       | docs/PRICING_STRATEGY.md |
 
----
-
-## License
-
-MIT - TSIS-3 Academic Project
