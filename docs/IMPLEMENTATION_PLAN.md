@@ -165,7 +165,7 @@ Expected: Error thrown "Messages must be > 0"  PASS
 
 ```
 Input:  total_usd = $10.00
-Expected: kzt = 10 * 450 = 4,500 KZT  PASS
+Expected: kzt = 10 * 480 = 4,800 KZT  PASS
 ```
 
 ### TEST-EDGE-003: Maximum scale, no crash
