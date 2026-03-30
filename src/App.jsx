@@ -8,6 +8,7 @@ import ResultsPanel from './components/ResultsPanel.jsx';
 import ComparisonChart from './components/ComparisonChart.jsx';
 import Header from './components/Header.jsx';
 import AuthModal from './components/AuthModal.jsx';
+import HistoryPanel from "./components/HistoryPanel";
 
 const DEFAULT_PARAMS = {
   dailyMessages: 1000,

@@ -1,5 +1,5 @@
 // calculator.js — Core math engine (matches SSOT Section 4 exactly)
-
+import { saveSession } from "../services/session.service";
 import { USD_TO_KZT } from '../config/pricing.config.js';
 
 /**
@@ -38,7 +38,9 @@ export function calcComputeCost(provider, dailyMessages, execMs = 800, memGb = 0
  */
 export function calcStorageCost(provider, dailyMessages, monthlyUsers) {
   const monthly = dailyMessages * 30;
-  const storedBytes = monthly * 2000 + monthlyUsers * 1000;
+  const storedBytes =
+  monthly * 25000 +        // messages + embeddings
+  monthlyUsers * 5000000;  // profiles + media
   const storedGb = storedBytes / 1_073_741_824;
   const billable = Math.max(0, storedGb - (provider.storageFreeGb ?? 1));
   return +(billable * (provider.storagePricePerGb ?? 0.18)).toFixed(6);
@@ -49,7 +51,7 @@ export function calcStorageCost(provider, dailyMessages, monthlyUsers) {
  */
 export function calcBandwidthCost(provider, dailyMessages, monthlyUsers) {
   const monthly = dailyMessages * 30;
-  const msgEgressGb = monthly * 500 / 1_073_741_824;
+  const msgEgressGb = monthly * 8000 / 1_073_741_824;
   const assetEgressGb = monthlyUsers * 2 / 1024;
   const totalGb = msgEgressGb + assetEgressGb;
 
