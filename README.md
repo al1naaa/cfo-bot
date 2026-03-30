@@ -1,6 +1,6 @@
 # CFO Bot - Cloud Cost Estimator for Chat Bot Apps
 
-TSIS 3 - Information Systems | Spec-Driven Development Project
+Spec-Driven Development Project
 Deployed on Firebase Hosting, built with React + Vite
 
 
