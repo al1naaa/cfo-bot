@@ -3,7 +3,7 @@
 export function exportToPdf(results, params, model) {
   const monthly = params.dailyMessages * 30;
   const currency = params.currency;
-  const USD_TO_KZT = 450;
+  const USD_TO_KZT = 480;
 
   function fmt(usd) {
     if (currency === 'KZT') return `${Math.round(usd * USD_TO_KZT).toLocaleString()} KZT`;
@@ -98,7 +98,7 @@ export function exportToPdf(results, params, model) {
               + (monthly_messages * tokens_out / 1,000,000) * price_output<br>
       cost_storage = max(0, stored_gb - free_gb) * price_per_gb<br>
       cost_bandwidth = max(0, egress_gb - free_gb) * price_per_gb<br>
-      KZT = total_usd * 450
+      KZT = total_usd * 480
     </code>
   </div>
 
