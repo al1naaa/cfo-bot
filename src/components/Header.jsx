@@ -56,18 +56,11 @@ export default function Header({
 
       {/* Right - Controls */}
       <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
-        {/* Badge */}
-        <div style={{
-          fontSize: 10, color: text3,
-          fontFamily: 'Space Mono, monospace',
-          background: bg2, padding: '3px 8px', borderRadius: 20,
-          border: `1px solid ${borderC}`,
-        }}>TSIS-3</div>
 
         {/* Theme toggle */}
         <button onClick={onToggleTheme} title="Toggle theme" style={{
           ...btnBase, width: 32, height: 32, padding: 0,
-          display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 14,
+          display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 14, color: isDark ? '#FFF' : '#000',
         }}>
           {isDark ? '☀' : '◑'}
         </button>

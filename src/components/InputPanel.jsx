@@ -1,6 +1,6 @@
 import React from 'react';
 
-const USD_TO_KZT = 450;
+const USD_TO_KZT = 480;
 
 function SliderRow({ label, value, min, max, step = 1, onChange, format, hint, isDark }) {
   return (
@@ -171,7 +171,7 @@ export default function InputPanel({ params, onUpdate, models, theme }) {
           isDark={isDark}
         />
         <div style={{ fontSize: 11, color: 'var(--text3)', fontFamily: 'Space Mono, monospace' }}>
-          Rate: 1 USD = 450 KZT
+          Rate: 1 USD = 480 KZT
         </div>
       </Section>
     </aside>

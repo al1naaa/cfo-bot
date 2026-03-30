@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 
-const USD_TO_KZT = 450;
+const USD_TO_KZT = 480;
 
 function costColor(usd) {
   if (usd === 0) return '#00e5a0';
@@ -67,7 +67,7 @@ function CostCard({ result, rank, currency, isLowest }) {
         <div>
           <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 2 }}>
             <span style={{
-              fontSize: 10, fontWeight: 700, color: '#fff',
+              fontSize: 10, fontWeight: 700, color: isDark ? '#fff' : '#000',
               background: 'rgba(255,255,255,0.12)',
               padding: '2px 6px', borderRadius: 4,
               fontFamily: 'Space Mono, monospace', letterSpacing: '0.04em',

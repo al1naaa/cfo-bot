@@ -136,7 +136,7 @@ export default function AuthModal({ onAuth, onClose, theme }) {
         </button>
 
         <div style={{ textAlign: 'center', marginTop: 16, fontSize: 11, color: text2 }}>
-          Data is stored locally in your browser only.
+          Data is stored in Firebase cloud.
         </div>
       </div>
     </div>
