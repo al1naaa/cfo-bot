@@ -4,7 +4,7 @@
 
 ## 1. Executive Summary
 
-CFO Bot estimates monthly infrastructure costs for a Chat Bot application. The user inputs usage assumptions (messages per day, users, token sizes) and selects a cloud provider and AI model. The system outputs a full cost breakdown in USD with a KZT equivalent shown alongside (1 USD = 450 KZT, configurable).
+CFO Bot estimates monthly infrastructure costs for a Chat Bot application. The user inputs usage assumptions (messages per day, users, token sizes) and selects a cloud provider and AI model. The system outputs a full cost breakdown in USD with a KZT equivalent shown alongside (1 USD = 480 KZT, configurable).
 
 ---
 
@@ -38,7 +38,7 @@ CFO Bot estimates monthly infrastructure costs for a Chat Bot application. The u
 | AWS S3                  | 5 GB (12mo)  | $0.023/GB         |
 | GCP Cloud Storage       | 5 GB         | $0.020/GB         |
 | Azure Blob Storage      | 5 GB (12mo)  | $0.018/GB         |
-| Digital Ocean Spaces    | 250 GB       | $0.02/GB          |
+| Digital Ocean Spaces    | 25 GB       | $0.02/GB          |
 | PS Cloud / Qaztelecom   | 20 GB        | $0.022/GB         |
 
 ### Bandwidth / Egress
@@ -167,7 +167,7 @@ else:
 ```
 TOTAL_USD       = cost_ai + cost_compute + cost_storage + cost_bandwidth
 cost_per_msg    = TOTAL_USD / monthly_messages
-KZT_equivalent  = TOTAL_USD * 450
+KZT_equivalent  = TOTAL_USD * 480
 ```
 
 ---
