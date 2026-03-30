@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { login, register } from '../utils/auth.js';
 
-export default function AuthModal({ onAuth, theme }) {
-  const [mode, setMode] = useState('login'); // 'login' | 'register'
+export default function AuthModal({ onAuth, onClose, theme }) {
+  const [mode, setMode] = useState('login');
   const [form, setForm] = useState({ name: '', email: '', password: '' });
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
@@ -24,13 +24,13 @@ export default function AuthModal({ onAuth, theme }) {
     setLoading(true);
     setError('');
     try {
-      let session;
+      let sess;
       if (mode === 'register') {
-        session = register(form.email, form.password, form.name);
+        sess = await register(form.email, form.password, form.name);
       } else {
-        session = login(form.email, form.password);
+        sess = await login(form.email, form.password);
       }
-      onAuth(session);
+      onAuth(sess);
     } catch (e) {
       setError(e.message);
     } finally {
@@ -61,27 +61,23 @@ export default function AuthModal({ onAuth, theme }) {
       background: 'rgba(0,0,0,0.7)',
       display: 'flex', alignItems: 'center', justifyContent: 'center',
       backdropFilter: 'blur(4px)',
-    }}>
+    }} onClick={onClose}>
       <div style={{
-        background: bg,
-        border: `1px solid ${border}`,
-        borderRadius: 16,
-        padding: '32px 36px',
-        width: '100%',
-        maxWidth: 400,
+        background: bg, border: `1px solid ${border}`,
+        borderRadius: 16, padding: '32px 36px',
+        width: '100%', maxWidth: 400,
         boxShadow: '0 24px 64px rgba(0,0,0,0.4)',
         animation: 'fadeUp 0.25s ease',
-      }}>
-        {/* Logo */}
+      }} onClick={e => e.stopPropagation()}>
+
         <div style={{ textAlign: 'center', marginBottom: 24 }}>
           <div style={{
             width: 48, height: 48, borderRadius: 12,
             background: 'linear-gradient(135deg, #0090ff, #00e5a0)',
             display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
-            fontSize: 22, marginBottom: 12,
-          }}>
-            C
-          </div>
+            fontSize: 22, marginBottom: 12, color: '#fff', fontWeight: 700,
+            fontFamily: 'Space Mono, monospace',
+          }}>C</div>
           <div style={{ fontFamily: 'Space Mono, monospace', fontWeight: 700, fontSize: 18, color: text }}>
             CFO Bot
           </div>
@@ -90,7 +86,6 @@ export default function AuthModal({ onAuth, theme }) {
           </div>
         </div>
 
-        {/* Tab toggle */}
         <div style={{
           display: 'flex', background: bg2, borderRadius: 8,
           padding: 4, marginBottom: 24, border: `1px solid ${border}`,
@@ -108,32 +103,17 @@ export default function AuthModal({ onAuth, theme }) {
           ))}
         </div>
 
-        {/* Fields */}
         {mode === 'register' && (
-          <input
-            placeholder="Full Name"
-            value={form.name}
+          <input placeholder="Full Name" value={form.name}
             onChange={e => handleField('name', e.target.value)}
-            onKeyDown={handleKeyDown}
-            style={inputStyle}
-          />
+            onKeyDown={handleKeyDown} style={inputStyle} />
         )}
-        <input
-          placeholder="Email Address"
-          type="email"
-          value={form.email}
+        <input placeholder="Email Address" type="email" value={form.email}
           onChange={e => handleField('email', e.target.value)}
-          onKeyDown={handleKeyDown}
-          style={inputStyle}
-        />
-        <input
-          placeholder="Password"
-          type="password"
-          value={form.password}
+          onKeyDown={handleKeyDown} style={inputStyle} />
+        <input placeholder="Password" type="password" value={form.password}
           onChange={e => handleField('password', e.target.value)}
-          onKeyDown={handleKeyDown}
-          style={{ ...inputStyle, marginBottom: 16 }}
-        />
+          onKeyDown={handleKeyDown} style={{ ...inputStyle, marginBottom: 16 }} />
 
         {error && (
           <div style={{
@@ -142,9 +122,7 @@ export default function AuthModal({ onAuth, theme }) {
             border: '1px solid rgba(255,71,87,0.2)',
             borderRadius: 6, padding: '8px 12px',
             marginBottom: 16, fontFamily: 'Space Mono, monospace',
-          }}>
-            {error}
-          </div>
+          }}>{error}</div>
         )}
 
         <button onClick={handleSubmit} disabled={loading} style={{
@@ -152,8 +130,7 @@ export default function AuthModal({ onAuth, theme }) {
           background: loading ? '#555' : accent,
           color: '#fff', border: 'none', borderRadius: 8,
           fontFamily: 'Space Mono, monospace', fontSize: 13, fontWeight: 700,
-          cursor: loading ? 'default' : 'pointer',
-          transition: 'all 0.2s',
+          cursor: loading ? 'default' : 'pointer', transition: 'all 0.2s',
         }}>
           {loading ? 'Please wait...' : mode === 'login' ? 'Sign In' : 'Create Account'}
         </button>

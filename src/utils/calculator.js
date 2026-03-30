@@ -1,5 +1,4 @@
-// calculator.js — Core math engine (matches SSOT Section 4 exactly)
-import { saveSession } from "../services/session.service";
+// calculator.js - Core math engine (matches SSOT Section 4 exactly)
 import { USD_TO_KZT } from '../config/pricing.config.js';
 
 /**
@@ -35,12 +34,12 @@ export function calcComputeCost(provider, dailyMessages, execMs = 800, memGb = 0
 
 /**
  * Calculate storage cost
+ * Formula from SSOT 4.4:
+ * stored_bytes = (monthly_messages * 2000) + (monthly_active_users * 1000)
  */
 export function calcStorageCost(provider, dailyMessages, monthlyUsers) {
   const monthly = dailyMessages * 30;
-  const storedBytes =
-  monthly * 25000 +        // messages + embeddings
-  monthlyUsers * 5000000;  // profiles + media
+  const storedBytes = (monthly * 2000) + (monthlyUsers * 1000);
   const storedGb = storedBytes / 1_073_741_824;
   const billable = Math.max(0, storedGb - (provider.storageFreeGb ?? 1));
   return +(billable * (provider.storagePricePerGb ?? 0.18)).toFixed(6);
@@ -48,18 +47,21 @@ export function calcStorageCost(provider, dailyMessages, monthlyUsers) {
 
 /**
  * Calculate bandwidth/egress cost
+ * Formula from SSOT 4.5:
+ * msg_egress_gb = (monthly_messages * 500 bytes) / 1_073_741_824
+ * asset_egress_gb = monthly_active_users * 2 MB / 1024
  */
 export function calcBandwidthCost(provider, dailyMessages, monthlyUsers) {
   const monthly = dailyMessages * 30;
-  const msgEgressGb = monthly * 8000 / 1_073_741_824;
-  const assetEgressGb = monthlyUsers * 2 / 1024;
+  const msgEgressGb = (monthly * 500) / 1_073_741_824;
+  const assetEgressGb = (monthlyUsers * 2) / 1024;
   const totalGb = msgEgressGb + assetEgressGb;
 
   const freeGb = provider.egressFreeGb ?? 10;
   const billable = Math.max(0, totalGb - freeGb);
   const pricePerGb = provider.egressPricePerGb ?? 0.08;
 
-  // Tiered pricing for AWS CloudFront (1TB -> 0.085, then 0.07)
+  // Tiered pricing for AWS (beyond 1TB)
   let cost = 0;
   if (provider.vendor === 'AWS' && billable > 1024) {
     cost = 1024 * 0.085 + (billable - 1024) * 0.070;
@@ -70,7 +72,7 @@ export function calcBandwidthCost(provider, dailyMessages, monthlyUsers) {
 }
 
 /**
- * Main orchestrator — calculates full breakdown
+ * Main orchestrator - calculates full breakdown for one provider
  */
 export function calculateTotal(params) {
   const { model, provider, dailyMessages, monthlyUsers, tokensIn, tokensOut, execMs, memGb } = params;
@@ -109,7 +111,7 @@ export function calculateTotal(params) {
 }
 
 /**
- * Run calculation across ALL providers for comparison
+ * Run calculation across ALL providers
  */
 export function calculateAllProviders(params, providers) {
   return providers.map(provider => {

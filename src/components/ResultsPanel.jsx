@@ -66,7 +66,12 @@ function CostCard({ result, rank, currency, isLowest }) {
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 12 }}>
         <div>
           <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 2 }}>
-            <span style={{ fontSize: 16 }}>{providerFlag}</span>
+            <span style={{
+              fontSize: 10, fontWeight: 700, color: '#fff',
+              background: 'rgba(255,255,255,0.12)',
+              padding: '2px 6px', borderRadius: 4,
+              fontFamily: 'Space Mono, monospace', letterSpacing: '0.04em',
+            }}>{providerFlag}</span>
             <span style={{ fontWeight: 600, fontSize: 14, color: 'var(--text)' }}>{providerName}</span>
             <span style={{
               fontSize: 10, color: rank === 0 ? '#00e5a0' : 'var(--text3)',

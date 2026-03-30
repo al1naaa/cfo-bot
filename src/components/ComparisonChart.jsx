@@ -22,7 +22,7 @@ export default function ComparisonChart({ results, currency, theme }) {
 
   const data = useMemo(() => {
     const sorted = [...results].sort((a, b) => a.totalUsd - b.totalUsd);
-    const labels = sorted.map(r => `${r.providerFlag} ${r.providerName}`);
+    const labels = sorted.map(r => r.providerName);
     const mult = currency === 'KZT' ? USD_TO_KZT : 1;
 
     return {
@@ -88,7 +88,7 @@ export default function ComparisonChart({ results, currency, theme }) {
     scales: {
       x: {
         stacked: true,
-        ticks: { color: axisColor, font: { family: 'DM Sans', size: 11 } },
+        ticks: { color: axisColor, font: { family: 'DM Sans', size: 10 }, maxRotation: 30 },
         grid: { color: gridColor },
       },
       y: {
@@ -108,7 +108,7 @@ export default function ComparisonChart({ results, currency, theme }) {
       background: 'var(--bg2)',
       borderTop: '1px solid var(--border)',
       padding: '24px',
-      height: 320,
+      height: 340,
       transition: 'background 0.2s',
     }}>
       <Bar data={data} options={options} />

@@ -1,8 +1,5 @@
 {
   "projects": {
-    "cfo-bot": "cfo-bot-cloud",
     "default": "cfo-bot-cloud"
-  },
-  "targets": {},
-  "etags": {}
+  }
 }

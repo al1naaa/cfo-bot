@@ -103,10 +103,10 @@ export function exportToPdf(results, params, model) {
   </div>
 
   <div class="footer">
-    CFO Bot v1.0 | Input tokens: ${params.tokensIn} | Output tokens: ${params.tokensOut} | Exec time: ${params.execMs}ms | Memory: ${params.memGb}GB
+    CFO Bot | Input tokens: ${params.tokensIn} | Output tokens: ${params.tokensOut} | Exec time: ${params.execMs}ms | Memory: ${params.memGb}GB
   </div>
 
-  <script>window.onload = () => { window.print(); }</script>
+  <script>window.onload = () => { window.print(); }<\/script>
 </body>
 </html>`;
 
@@ -114,7 +114,6 @@ export function exportToPdf(results, params, model) {
   const url = URL.createObjectURL(blob);
   const win = window.open(url, '_blank');
   if (!win) {
-    // popup blocked fallback - download as html
     const a = document.createElement('a');
     a.href = url;
     a.download = `cfo-bot-report-${Date.now()}.html`;

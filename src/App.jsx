@@ -2,13 +2,13 @@ import React, { useState, useMemo, useCallback, useEffect } from 'react';
 import { AI_MODELS, CLOUD_PROVIDERS } from './config/pricing.config.js';
 import { calculateAllProviders, exportToCsv } from './utils/calculator.js';
 import { exportToPdf } from './utils/exportPdf.js';
-import { getSession, logout, saveParams, loadParams } from './utils/auth.js';
+import { getSession, logout, saveParams, loadParams, saveHistoryEntry } from './utils/auth.js';
 import InputPanel from './components/InputPanel.jsx';
 import ResultsPanel from './components/ResultsPanel.jsx';
 import ComparisonChart from './components/ComparisonChart.jsx';
 import Header from './components/Header.jsx';
 import AuthModal from './components/AuthModal.jsx';
-import HistoryPanel from "./components/HistoryPanel";
+import HistoryPanel from './components/HistoryPanel.jsx';
 
 const DEFAULT_PARAMS = {
   dailyMessages: 1000,
@@ -25,12 +25,13 @@ export default function App() {
   const [theme, setTheme] = useState(() => localStorage.getItem('cfobot_theme') || 'dark');
   const [session, setSession] = useState(() => getSession());
   const [showAuth, setShowAuth] = useState(false);
+  const [showHistory, setShowHistory] = useState(false);
   const [params, setParams] = useState(() => loadParams() || DEFAULT_PARAMS);
   const [error, setError] = useState(null);
+  const [savedMsg, setSavedMsg] = useState('');
 
   const isDark = theme === 'dark';
 
-  // Sync theme to CSS variables and localStorage
   useEffect(() => {
     localStorage.setItem('cfobot_theme', theme);
     const root = document.documentElement;
@@ -57,7 +58,6 @@ export default function App() {
     document.body.style.color = isDark ? '#e8eaf0' : '#1a1a2e';
   }, [theme, isDark]);
 
-  // Persist params when user is logged in
   useEffect(() => {
     if (session) saveParams(params);
   }, [params, session]);
@@ -80,6 +80,40 @@ export default function App() {
       return [];
     }
   }, [params, selectedModel]);
+
+  const handleSaveSession = useCallback(async () => {
+    if (!session) {
+      setShowAuth(true);
+      return;
+    }
+    try {
+      await saveHistoryEntry(session.uid, {
+        model: selectedModel.name,
+        modelId: params.modelId,
+        dailyMessages: params.dailyMessages,
+        monthlyMessages: params.dailyMessages * 30,
+        monthlyUsers: params.monthlyUsers,
+        tokensIn: params.tokensIn,
+        tokensOut: params.tokensOut,
+        execMs: params.execMs,
+        memGb: params.memGb,
+        currency: params.currency,
+        cheapest: results[0]
+          ? { providerName: results[0].providerName, totalUsd: results[0].totalUsd, totalKzt: results[0].totalKzt }
+          : null,
+        topThree: results.slice(0, 3).map(r => ({
+          providerName: r.providerName,
+          totalUsd: r.totalUsd,
+          breakdown: r.breakdown,
+        })),
+      });
+      setSavedMsg('Saved!');
+      setTimeout(() => setSavedMsg(''), 2000);
+    } catch (e) {
+      setSavedMsg('Error saving');
+      setTimeout(() => setSavedMsg(''), 2000);
+    }
+  }, [session, results, params, selectedModel]);
 
   const handleExportCsv = useCallback(() => {
     const csv = exportToCsv(results, params);
@@ -112,11 +146,15 @@ export default function App() {
 
   return (
     <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
-      {showAuth && <AuthModal onAuth={handleAuth} theme={theme} />}
+      {showAuth && <AuthModal onAuth={handleAuth} onClose={() => setShowAuth(false)} theme={theme} />}
+      {showHistory && <HistoryPanel theme={theme} onClose={() => setShowHistory(false)} session={session} onLoginRequest={() => setShowAuth(true)} />}
 
       <Header
         onExport={handleExportCsv}
         onExportPdf={handleExportPdf}
+        onSaveSession={handleSaveSession}
+        onShowHistory={() => setShowHistory(true)}
+        savedMsg={savedMsg}
         hasResults={results.length > 0}
         theme={theme}
         onToggleTheme={() => setTheme(t => t === 'dark' ? 'light' : 'dark')}
@@ -124,7 +162,6 @@ export default function App() {
         onLogout={handleLogout}
       />
 
-      {/* Login prompt banner */}
       {!session && !showAuth && (
         <div style={{
           background: isDark ? 'rgba(0,144,255,0.07)' : 'rgba(0,144,255,0.06)',
