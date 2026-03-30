@@ -54,7 +54,7 @@ export function exportToPdf(results, params, model) {
 </head>
 <body>
   <h1>CFO Bot - Cloud Cost Estimate</h1>
-  <div class="subtitle">Generated on ${new Date().toLocaleString()} | TSIS-3 Academic Project</div>
+  <div class="subtitle">Generated on ${new Date().toLocaleString()}</div>
 
   <div class="meta">
     <div class="meta-box">
